@@ -1,10 +1,39 @@
-from flask import Flask
+from flask import Flask, request, render_template
 app = Flask(__name__)
 
 import time
 import os
 import RPi.GPIO as GPIO
 import threading
+import json
+
+# settings
+SETTINGS_FILE = os.path.dirname(os.path.realpath(__file__)) + '/settings.json'
+
+def create_settings_dict(
+        project = "Nytt prosjekt",
+        description = "Beskrivelse",
+        ):
+    return {
+        "project": project,
+        "description": description,
+    }
+
+
+def get_values_from_settings( settings  = create_settings_dict()):
+    return settings.get("project"), settings.get("description")
+
+
+try:
+    with open(SETTINGS_FILE) as data_file:
+        data = json.load(data_file)
+        project, description = get_values_from_settings(data)
+except:
+    with open(SETTINGS_FILE , 'w') as outfile:
+        json.dump(create_settings_dict(), outfile)
+    with open(SETTINGS_FILE) as data_file:
+        data = json.load(data_file)
+        project, description = get_values_from_settings(data)
 
 GPIO.setmode(GPIO.BCM)
 DEBUG = 1
@@ -86,7 +115,11 @@ def hello_world():
     threading.Thread(target=indicateLoading).start()
     
     current_value = readadc(potentiometer_adc, SPICLK, SPIMOSI, SPIMISO, SPICS)
-    return "curent value: " + str(current_value)
+    return render_template(
+            'index.html',
+            project =project,
+            description=description,
+            current_value=current_value)
 
 def startup():
     GPIO.output(RED_LED_1, GPIO.HIGH)
