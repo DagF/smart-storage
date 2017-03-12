@@ -114,6 +114,33 @@ def indicateLoading():
     time.sleep(1)
     GPIO.output(RED_LED_3, GPIO.LOW)
 
+
+
+
+def show_activity():
+    GPIO.output(RED_LED_1, GPIO.HIGH)
+    time.sleep(0.5)
+    GPIO.output(RED_LED_1, GPIO.LOW)
+    time.sleep(0.5)
+    GPIO.output(RED_LED_1, GPIO.HIGH)
+    time.sleep(0.5)
+    GPIO.output(RED_LED_1, GPIO.LOW)
+
+def watch_analog_input():
+    last_input_value = readadc(potentiometer_adc, SPICLK, SPIMOSI, SPIMISO, SPICS)
+    threshold = 10
+    while(True):
+        value = readadc(potentiometer_adc, SPICLK, SPIMOSI, SPIMISO, SPICS)
+        if(abs(last_input_value - value) > threshold):
+                show_activity()
+        last_input_value = value
+        time.sleep(1)
+                
+threading.Thread(target=watch_analog_input).start()
+
+
+
+
 @app.route('/')
 def hello_world():
     threading.Thread(target=indicateLoading).start()
