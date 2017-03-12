@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template
+from flask import Flask, request, render_template, redirect, url_for
 app = Flask(__name__)
 
 import time
@@ -29,12 +29,15 @@ def get_settings():
             data = json.load(data_file)
             project, description = get_values_from_settings(data)
     except:
-        with open(SETTINGS_FILE , 'w') as outfile:
-            json.dump(create_settings_dict(), outfile)
+        save_settings_to_file(create_settings_dict())
         with open(SETTINGS_FILE) as data_file:
             data = json.load(data_file)
             project, description = get_values_from_settings(data)
     return project, description  
+
+def save_settings_to_file(values):
+    with open(SETTINGS_FILE , 'w') as outfile:
+            json.dump(values, outfile) 
 
 GPIO.setmode(GPIO.BCM)
 DEBUG = 1
@@ -124,6 +127,14 @@ def hello_world():
 
 @app.route('/settings', methods=['GET', 'POST'])
 def settings():
+    if request.method == 'POST':
+        project = request.form.get("project")
+        description = request.form.get("description")
+        save_settings_to_file({"project" : project, "description": description})
+        return redirect(url_for('hello_world'))
+        
+    project, description = get_settings()
+    
     return render_template(
         "settings.html",
         project=project,
