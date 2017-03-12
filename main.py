@@ -23,17 +23,18 @@ def create_settings_dict(
 def get_values_from_settings( settings  = create_settings_dict()):
     return settings.get("project"), settings.get("description")
 
-
-try:
-    with open(SETTINGS_FILE) as data_file:
-        data = json.load(data_file)
-        project, description = get_values_from_settings(data)
-except:
-    with open(SETTINGS_FILE , 'w') as outfile:
-        json.dump(create_settings_dict(), outfile)
-    with open(SETTINGS_FILE) as data_file:
-        data = json.load(data_file)
-        project, description = get_values_from_settings(data)
+def get_settings():
+    try:
+        with open(SETTINGS_FILE) as data_file:
+            data = json.load(data_file)
+            project, description = get_values_from_settings(data)
+    except:
+        with open(SETTINGS_FILE , 'w') as outfile:
+            json.dump(create_settings_dict(), outfile)
+        with open(SETTINGS_FILE) as data_file:
+            data = json.load(data_file)
+            project, description = get_values_from_settings(data)
+    return project, description  
 
 GPIO.setmode(GPIO.BCM)
 DEBUG = 1
@@ -113,13 +114,20 @@ def indicateLoading():
 @app.route('/')
 def hello_world():
     threading.Thread(target=indicateLoading).start()
-    
+    project, description = get_settings()
     current_value = readadc(potentiometer_adc, SPICLK, SPIMOSI, SPIMISO, SPICS)
     return render_template(
             'index.html',
             project =project,
             description=description,
             current_value=current_value)
+
+@app.route('/settings', methods=['GET', 'POST'])
+def settings():
+    return render_template(
+        "settings.html",
+        project=project,
+        description=description)
 
 def startup():
     GPIO.output(RED_LED_1, GPIO.HIGH)
