@@ -1,3 +1,4 @@
 Flask
 piui
-
+smbus-cffi
+mpu6050-raspberrypi

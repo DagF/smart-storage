@@ -135,8 +135,19 @@ def watch_analog_input():
                 show_activity()
         last_input_value = value
         time.sleep(1)
-                
+        
 threading.Thread(target=watch_analog_input).start()
+
+
+from mpu6050 import mpu6050
+sensor = mpu6050(0x68)
+
+def watch_acc():
+    data = sensor.get_accel_data()
+    print(data)
+    time.sleep(1)
+                
+threading.Thread(target=watch_acc).start()
 
 
 
