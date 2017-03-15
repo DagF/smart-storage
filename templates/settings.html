@@ -6,9 +6,13 @@
 </head>
 <body>
 <h1>Tittel</h1>
-<form method="post">
-<label>Project: <input type="text" name="project" value="{{project}}"/></label>
-<label>Description: <input type="text" name="description" value="{{description}}"/></label>
+<form method="post" enctype="multipart/form-data">
+<label>Project: <input type="text" name="project" value="{{project}}"/></label><br>
+<label>Description: <input type="text" name="description" value="{{description}}"/></label><br>
+<img src="/image.jpg" /><br>
+<label>Image: <input type="file" name="image"/></label><br>
+<label>Owner: <input type="text" name="owner" value="{{owner}}"/></label><br>
+<label>Phone number: <input type="number" name="number" value="{{number}}"/></label><br>
 <input type="submit" value="save"/>
 </form>
 
