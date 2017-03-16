@@ -17,6 +17,14 @@
 <label>Image: <input type="file" name="image"/></label><br>
 <label>Owner: <input type="text" name="owner" value="{{settings.owner}}"/></label><br>
 <label>Phone number: <input type="number" name="number" value="{{settings.number}}"/></label><br>
+<label>type:{{settings.type}}
+    <select name="type" value="{{settings.type}}">
+    <option {% if "prototype" == settings.type %} selected{% endif %} value="prototype">Prototype</option>
+    <option {% if "tool" == settings.type %} selected{% endif %} value="tool">Tool</option>
+    <option {% if "project" == settings.type %} selected{% endif %} value="project">Project</option>
+    <option {% if "materials" == settings.type %} selected{% endif %} value="materials">Materials</option>
+    </select>
+</label><br>
 <input type="submit" value="save"/>
 </form>
 

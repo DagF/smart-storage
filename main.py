@@ -93,9 +93,12 @@ def settings():
             "project": request.form.get("project"),
             "description": request.form.get("description"),
             "owner": request.form.get("owner"),
-            "number": request.form.get("number")
+            "number": request.form.get("number"),
+            "type": request.form.get("type"),
         })
-        save_image(request.files['image'])
+        img = request.files['image']
+        if img.filename != '':
+            save_image(img)
         return redirect(url_for('hello_world'))
 
     settings = load_settings()

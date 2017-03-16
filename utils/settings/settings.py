@@ -10,14 +10,16 @@ def create_settings_dict(
         project="Nytt prosjekt",
         description="Beskrivelse",
         owner="navn",
-        number="78778"
+        number="78778",
+        type="prototype",
 ):
     return {
         "image": "",
         "project": project,
         "description": description,
         "name": owner,
-        "number": number
+        "number": number,
+        "type": type,
     }
 
 
@@ -27,6 +29,7 @@ def get_values_from_settings(settings=create_settings_dict()):
         'owner': settings.get("owner"),
         'project': settings.get("project"),
         'description': settings.get("description"),
+        'type': settings.get("type"),
     }
 
 
@@ -42,6 +45,11 @@ def load_settings():
 
 
 def save_settings(values):
+    if 'image' not in values:
+        with open(SETTINGS_FILE) as data_file:
+            data = json.load(data_file)
+            values['image'] = data['image']
+            print (data)
     with open(SETTINGS_FILE, 'w') as outfile:
         json.dump(values, outfile)
 
