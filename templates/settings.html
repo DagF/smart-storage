@@ -2,17 +2,21 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <style> </style>
+    <style>
+        img{
+            max-width: 100%;
+        }
+    </style>
 </head>
 <body>
 <h1>Tittel</h1>
 <form method="post" enctype="multipart/form-data">
-<label>Project: <input type="text" name="project" value="{{project}}"/></label><br>
-<label>Description: <input type="text" name="description" value="{{description}}"/></label><br>
+<label>Project: <input type="text" name="project" value="{{settings.project}}"/></label><br>
+<label>Description: <input type="text" name="description" value="{{settings.description}}"/></label><br>
 <img src="/image.jpg" /><br>
 <label>Image: <input type="file" name="image"/></label><br>
-<label>Owner: <input type="text" name="owner" value="{{owner}}"/></label><br>
-<label>Phone number: <input type="number" name="number" value="{{number}}"/></label><br>
+<label>Owner: <input type="text" name="owner" value="{{settings.owner}}"/></label><br>
+<label>Phone number: <input type="number" name="number" value="{{settings.number}}"/></label><br>
 <input type="submit" value="save"/>
 </form>
 
