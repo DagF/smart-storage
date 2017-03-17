@@ -49,7 +49,6 @@ def save_settings(values):
         with open(SETTINGS_FILE) as data_file:
             data = json.load(data_file)
             values['image'] = data['image']
-            print (data)
     with open(SETTINGS_FILE, 'w') as outfile:
         json.dump(values, outfile)
 
