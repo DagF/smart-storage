@@ -3,18 +3,75 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
-        img{
+        img {
             max-width: 100%;
         }
     </style>
 </head>
 <body>
-<h1>{{settings.project}}</h1>
-<p>{{settings.description}}</p>
-<p>{{settings.owner}}</p>
-<p>{{settings.number}}</p>
-<h3>{{current_value}}</h3>
-<img src="/image.jpg" />
+
+
+{% if settings.type == "prototype" %}
+    <h1>Rotating table</h1>
+    <p>Camera #1</p>
+    <img src="/image.jpg"/>
+    <div>Name: Jørgen Andreas Bogen Erichsen</div>
+    <div>Created: 2017-03-15 13:46</div>
+    <div>Month: 2017/03/</div>
+    <div>Project: Protobooth</div>
+    <div>Name of the prototype: Rotating table</div>
+    <div>Version: 3</div>
+    <div>Key Question: Does an arduino have enough power to drive the motor?</div>
+    <div>Key Learning: No, we need an ext power source.</div>
+    <div>Description: Now with arduino control</div>
+{% endif %}
+{% if settings.type == "tool" %}
+    <h1>Inventory</h1>
+    <ul>
+        <li>Hammer</li>
+        <li>Screw driver</li>
+    </ul>
+{% endif %}
+{% if settings.type == "project" %}
+    <h1>{{ settings.project }}</h1>
+    <h2>Description</h2>
+    <p>{{ settings.description }}</p>
+    <H2>Owner</H2>
+    <p>{{ settings.owner }}</p>
+    <H3>Number</H3>
+    <p>{{ settings.number }}</p>
+    <h2>Info</h2>
+    <p>Sensor value: {{ current_value }}</p>
+    <p>Last used: Fri 17/3-17 10:25</p>
+    <items></items>
+{% endif %}
+{% if settings.type  == "materials" %}
+    <h1>Soft materials</h1>
+    <table>
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Amount</th>
+            <th>Who to ask for more</th>
+            <th>Expensiveness</th>
+        </tr>
+        <tr>
+            <td>Paper</td>
+            <td>100 slides (by weight)</td>
+            <td>MS</td>
+            <td>Free</td>
+        </tr>
+        <tr>
+            <td>Paper</td>
+            <td>100 slides (by weight)</td>
+            <td>MS</td>
+            <td>Free</td>
+        </tr>
+        </thead>
+    </table>
+{% endif %}
+
+<br>
 <a href="/settings">Settings</a>
 <script>
 </script>
