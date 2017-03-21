@@ -41,3 +41,6 @@ http://stackoverflow.com/questions/42505741/raspberrypi-as-hotspot-without-inter
 
 ssh pi@172.24.1.1
 
+## ssh
+https://www.raspberrypi.org/documentation/remote-access/ssh/
+
