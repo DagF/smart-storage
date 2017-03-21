@@ -39,3 +39,5 @@ https://frillip.com/using-your-raspberry-pi-3-as-a-wifi-access-point-with-hostap
 
 http://stackoverflow.com/questions/42505741/raspberrypi-as-hotspot-without-internet-accessed-via-a-domain-name
 
+ssh pi@172.24.1.1
+
