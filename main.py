@@ -1,4 +1,5 @@
-
+import RPi.GPIO as GPIO
+GPIO.setmode(GPIO.BCM)
 
 from flask import Flask, request, render_template, redirect, url_for
 from flask import make_response
@@ -19,37 +20,37 @@ RED_LED_1 = 16
 RED_LED_2 = 20
 RED_LED_3 = 21
 
-# GPIO.setup(RED_LED_1, GPIO.OUT)
-# GPIO.setup(RED_LED_2, GPIO.OUT)
-# GPIO.setup(RED_LED_3, GPIO.OUT)
+GPIO.setup(RED_LED_1, GPIO.OUT)
+GPIO.setup(RED_LED_2, GPIO.OUT)
+GPIO.setup(RED_LED_3, GPIO.OUT)
 
 # 10k trim pot connected to adc #0
 potentiometer_adc = 0
 
 
 def indicateLoading():
-    # GPIO.output(RED_LED_1, GPIO.HIGH)
+    GPIO.output(RED_LED_1, GPIO.HIGH)
     time.sleep(1)
     print("led1")
-    # GPIO.output(RED_LED_1, GPIO.LOW)
-    # GPIO.output(RED_LED_2, GPIO.HIGH)
+    GPIO.output(RED_LED_1, GPIO.LOW)
+    GPIO.output(RED_LED_2, GPIO.HIGH)
     print("led2")
     time.sleep(1)
-    # GPIO.output(RED_LED_2, GPIO.LOW)
-    # GPIO.output(RED_LED_3, GPIO.HIGH)
+    GPIO.output(RED_LED_2, GPIO.LOW)
+    GPIO.output(RED_LED_3, GPIO.HIGH)
     print("led3")
     time.sleep(1)
-    # GPIO.output(RED_LED_3, GPIO.LOW)
+    GPIO.output(RED_LED_3, GPIO.LOW)
 
 
 def show_activity():
-    # GPIO.output(RED_LED_1, GPIO.HIGH)
+    GPIO.output(RED_LED_1, GPIO.HIGH)
     time.sleep(0.5)
-    # GPIO.output(RED_LED_1, GPIO.LOW)
+    GPIO.output(RED_LED_1, GPIO.LOW)
     time.sleep(0.5)
-    # GPIO.output(RED_LED_1, GPIO.HIGH)
+    GPIO.output(RED_LED_1, GPIO.HIGH)
     time.sleep(0.5)
-    # GPIO.output(RED_LED_1, GPIO.LOW)
+    GPIO.output(RED_LED_1, GPIO.LOW)
 
 
 def watch_analog_input():
@@ -63,11 +64,25 @@ def watch_analog_input():
         time.sleep(1)
 
 
-# threading.Thread(target=watch_analog_input).start()
+threading.Thread(target=watch_analog_input).start()
 
+import serial
+ser = serial.Serial('/dev/ttyACM0', 9600)
+
+s = [0]
+
+def watch_serial():
+    while(True):
+    	value = ser.readline()
+    	s[0] = str(int (ser.readline(), 16))
+   	print(s[0])
+    	print(value)
+
+threading.Thread(target=watch_serial).start()
 
 @app.route('/')
 def hello_world():
+    indicateLoading()
     threading.Thread(target=indicateLoading).start()
     settings = load_settings()
     current_value = read_adc(potentiometer_adc)

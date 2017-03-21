@@ -57,7 +57,7 @@ def main():
             # Read in 12 bytes from the serial port.
             data = ser.read(12)
 
-            # Attempt to validate the data we just read.
+	    print(data)            # Attempt to validate the data we just read.
             code = validate_rfid(data)
 
             # If validate_rfid() returned a code, display it.
@@ -68,3 +68,6 @@ def main():
         # the pin to HIGH, then exit.
         print("Disabling RFID reader...")
         GPIO.output(ENABLE_PIN, GPIO.HIGH)
+
+if __name__ == "__main__":
+    main()
