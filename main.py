@@ -1,7 +1,8 @@
+box = "s010"
 import json
 import time
 import requests
-from read_line import read_line
+from read_line import read_line, write
 
 token = "2567e7599f9ee43f567152ca954d482160566fb5"
 
@@ -20,18 +21,20 @@ def post(path, data):
     # post("activities/", {"box": "test"})
     # post("rfid/", {"box": "test", "value": "hex value"})
 
-
+#box = "s003"
 while (True):
+    write('{"test":1}')
     value = read_line()
+    print(value)
     if value:
         data = json.loads(value)
-
+	
         print(data)
         if data.get('active'):
-            post("activities/", {"box": "abc"})
-        if data.get('rfid'):
-            post("rfid/", {"box": "abc", "value": data['rfid']})
-        if data.get('weight'):
-            post("weight/", {"box": "abc", "value": data['weight']})
-
+            r = post("activities/", {"box": box})
+	if data.get('rfid'):
+            r = post("rfid/", {"box": box, "value": data['rfid']})
+	if data.get('weight'):
+            r = post("weight/", {"box": box, "value": data['weight']})
+    print(r)
     time.sleep(1)

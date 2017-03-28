@@ -2,13 +2,15 @@ import json
 
 try:
     import serial
-    ser = serial.Serial('/dev/ttyACM0', 9600)
+    ser = serial.Serial('/dev/ttyUSB1', 9600)
     s = [0]
-
+    def write(w):
+	ser.write(w)
 
     def read_line():
-        return ser.readline()
-except:
+        return ser.readline().replace("'", '"')
+except Exception as e:
+    print(e)
     from random import randint, choice
     import string
     print("Emulated read_line()")
