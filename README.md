@@ -54,8 +54,7 @@ https://duckduckgo.com/?q=raspberry+pi+static+ip&t=raspberrypi&ia=web
 # For static IP, consult /etc/dhcpcd.conf and 'man dhcpcd.conf'
 
 # Include files from /etc/network/interfaces.d:
-source-directory /etc/network/interfaces.d
-
+```
 auto lo
 iface lo inet loopback
 
@@ -63,18 +62,19 @@ iface eth0 inet manual
 
 allow-hotplug wlan0
 iface wlan0 inet static
-    address 172.24.1.2
+    address 192.168.0.2
     netmask 255.255.255.0
-    network 172.24.1.0
-    broadcast 172.24.1.255
-    gateway: 172.24.1.1
+    network 192.168.0.0
+    broadcast 192.168.0.255
+    gateway: 192.168.0.1
     wpa-conf /etc/wpa_supplicant/wpa_supplicant.conf
 
 allow-hotplug wlan1
 iface wlan1 inet manual
     wpa-conf /etc/wpa_supplicant/wpa_supplicant.conf
-    
+```
 ### /etc/wpa_supplicant/wpa_supplicant.conf
+```
 ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev
 update_config=1
 country=GB
@@ -84,4 +84,4 @@ network={
         psk="<Password>"
         key_mgmt=WPA-PSK
 }
-
+```
