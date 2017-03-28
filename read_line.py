@@ -11,13 +11,13 @@ try:
 except:
     from random import randint, choice
     import string
-
+    print("Emulated read_line()")
 
     def read_line():
-        active = False
-        rfid = ""
         if randint(0, 9) == 2:
-            active = True
+            return json.dumps({"active": True})
         if randint(0, 9) == 8:
-            rfid = ''.join(choice(string.ascii_uppercase + string.digits) for _ in range(16))
-        return json.dumps({"active": active, "rfid": rfid})
+            return json.dumps({"rfid": ''.join(choice(string.ascii_uppercase + string.digits) for _ in range(16))})
+        if randint(0, 9) == 7:
+            return json.dumps({"weight": randint(1, 1000)})
+        return None

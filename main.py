@@ -3,11 +3,11 @@ import time
 import requests
 from read_line import read_line
 
-token = "4e6af50e893a5064ac5b6200aa7bc3565c5f71c4"
+token = "2567e7599f9ee43f567152ca954d482160566fb5"
 
 
 def post(path, data):
-    response = requests.post('http://0.0.0.0:8000/api/box/' + path + '?format=json',
+    response = requests.post('http://dagfro.de:9000/api/box/' + path + '?format=json',
                              data=json.dumps(data),
                              headers={
                                  'Authorization': 'token ' + token,
@@ -23,12 +23,15 @@ def post(path, data):
 
 while (True):
     value = read_line()
-    data = json.loads(value)
+    if value:
+        data = json.loads(value)
 
-    print(data)
-    if data['active']:
-        post("activities/", {"box": "abc"})
-    if data['rfid']:
-        post("rfid/", {"box": "abc", "value": data['rfid']})
+        print(data)
+        if data.get('active'):
+            post("activities/", {"box": "abc"})
+        if data.get('rfid'):
+            post("rfid/", {"box": "abc", "value": data['rfid']})
+        if data.get('weight'):
+            post("weight/", {"box": "abc", "value": data['weight']})
 
     time.sleep(1)
